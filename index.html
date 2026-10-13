@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retail Sales Performance & Strategic Drivers | Slide Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #0a0e17;
+      --bg-surface: #111827;
+      --bg-card: rgba(26, 34, 53, 0.85);
+      --bg-glass: rgba(255, 255, 255, 0.04);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.4);
+      
+      --brand-primary: #38bdf8;
+      --brand-secondary: #818cf8;
+      --brand-accent: #f59e0b;
+      --brand-danger: #f43f5e;
+      --brand-success: #10b981;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-soft: #64748b;
+      
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(10, 14, 23, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #0f172a;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .deck-counter {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      background: var(--bg-glass);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+      position: relative;
+    }
+
+    .slide-viewport {
+      width: 100%;
+      max-width: 1080px;
+      aspect-ratio: 16 / 9;
+      background: radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 90%, rgba(129, 140, 248, 0.05) 0%, transparent 40%),
+                  var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 3.5rem;
+    }
+
+    @media (max-aspect-ratio: 16/9), (max-width: 900px) {
+      .slide-viewport {
+        aspect-ratio: auto;
+        min-height: 600px;
+        padding: 2rem;
+      }
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .slide-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 780px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: auto;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .metric-card:hover::before {
+      opacity: 1;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .metric-value {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+    }
+
+    .metric-desc {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .bar-chart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: auto;
+    }
+
+    .bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .bar-track {
+      height: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      margin-bottom: auto;
+    }
+
+    @media (max-width: 800px) {
+      .split-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bullet-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .bullet-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .bullet-points li strong {
+      color: var(--text-main);
+    }
+
+    .bullet-icon {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      margin-top: 2px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--brand-primary);
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .action-box {
+      margin-top: 1.5rem;
+      padding: 1.15rem 1.4rem;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.06);
+      border-left: 4px solid var(--brand-primary);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .action-box.accent {
+      background: rgba(245, 158, 11, 0.06);
+      border-left-color: var(--brand-accent);
+    }
+
+    .action-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-primary);
+      white-space: nowrap;
+    }
+
+    .action-box.accent .action-tag {
+      color: var(--brand-accent);
+    }
+
+    .action-text {
+      font-size: 0.875rem;
+      color: var(--text-main);
+    }
+
+    .timeline-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: auto;
+    }
+
+    @media (max-width: 850px) {
+      .timeline-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--brand-secondary);
+      font-weight: 600;
+    }
+
+    .step-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .step-desc {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-canvas);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      background: var(--bg-glass);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--border-focus);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .dots-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: var(--brand-primary);
+      width: 24px;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo">R</div>
+      <div class="brand-title">Retail Analytics Deck</div>
+    </div>
+    <div class="deck-counter" id="slide-indicator">01 / 06</div>
+  </header>
+
+  <main>
+    <div class="slide-viewport">
+      
+      <!-- Slide 1: Executive Overview -->
+      <section class="slide active" data-index="0">
+        <span class="slide-badge">Executive Summary</span>
+        <h1 class="slide-title">Retail Performance & Strategic Drivers</h1>
+        <p class="slide-subtitle">Analysis based on transaction logs, SQL query extractions, and core operational patterns across 2,000 retail records.</p>
+        
+        <div class="metric-grid">
+          <div class="metric-card">
+            <span class="metric-label">Gross Revenue</span>
+            <span class="metric-value">₹9.11L</span>
+            <span class="metric-desc">Evaluated across all category units.</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Evening Sales</span>
+            <span class="metric-value">53.1%</span>
+            <span class="metric-desc">Dominates daily transactional footfall.</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">High-Ticket Share</span>
+            <span class="metric-value">52.2%</span>
+            <span class="metric-desc">Driven by orders over ₹1,000.</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">VIP Spenders</span>
+            <span class="metric-value">16.3%</span>
+            <span class="metric-desc">Generated by top 5 client accounts.</span>
+          </div>
+        </div>
+
+        <div class="action-box">
+          <span class="action-tag">Key Takeaway</span>
+          <span class="action-text">The business exhibits high operational concentration in evening hours and heavy margin sensitivity to high-basket VIP transactions.</span>
+        </div>
+      </section>
+
+      <!-- Slide 2: Shift Distribution -->
+      <section class="slide" data-index="1">
+        <span class="slide-badge">Operational Footfall</span>
+        <h2 class="slide-title">Evening Windows Drive Core Volume</h2>
+        <p class="slide-subtitle">Order distribution and revenue realization across standard operational shifts show clear afternoon troughs and evening peaks.</p>
+
+        <div class="split-layout">
+          <div class="bar-chart-list">
+            <div class="bar-item">
+              <div class="bar-meta">
+                <span>Evening (Post 5 PM)</span>
+                <span>₹4,75,940 (53.1%)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 53.1%; background: #38bdf8;"></div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-meta">
+                <span>Morning (Pre 12 PM)</span>
+                <span>₹2,59,900 (28.1%)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 28.1%; background: #818cf8;"></div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-meta">
+                <span>Afternoon (12 PM - 5 PM)</span>
+                <span>₹1,75,880 (18.9%)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 18.9%; background: #64748b;"></div>
+              </div>
+            </div>
+          </div>
+
+          <ul class="bullet-points">
+            <li>
+              <span class="bullet-icon">1</span>
+              <div><strong>Traffic Mismatch:</strong> Over 1,062 out of 2,000 orders concentrate strictly after 5:00 PM.</div>
+            </li>
+            <li>
+              <span class="bullet-icon">2</span>
+              <div><strong>Afternoon Dip:</strong> The lowest conversion occurs between 12:00 PM and 5:00 PM, generating under 19% of turnover.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-box">
+          <span class="action-tag">Executive Action</span>
+          <span class="action-text">Re-align floor staff rosters toward evening hours and launch targeted afternoon flash promotions to stimulate off-peak footfall.</span>
+        </div>
+      </section>
+
+      <!-- Slide 3: VIP Concentration -->
+      <section class="slide" data-index="2">
+        <span class="slide-badge">Customer Value & Retention</span>
+        <h2 class="slide-title">High-Ticket Leverage & Spender Pareto</h2>
+        <p class="slide-subtitle">A small minority of high-basket orders and top-tier customers disproportionately underpins gross business revenue.</p>
+
+        <div class="split-layout">
+          <div class="metric-grid" style="grid-template-columns: 1fr; margin-bottom: 0;">
+            <div class="metric-card">
+              <span class="metric-label">High-Value Orders (&gt; ₹1,000)</span>
+              <span class="metric-value">52.2% Revenue</span>
+              <span class="metric-desc">Generated by only 15.3% (306 transactions) of total sales volume.</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Top 5 VIP Concentration</span>
+              <span class="metric-value">₹1,48,470</span>
+              <span class="metric-desc">Contributed by Customer IDs: #3, #1, #5, #2, and #4 across 155 unique shoppers.</span>
+            </div>
+          </div>
+
+          <ul class="bullet-points">
+            <li>
+              <span class="bullet-icon">&#x2197;</span>
+              <div><strong>Basket Threshold Leverage:</strong> Orders exceeding ₹1,000 drive over half of gross turnover, demonstrating strong pricing tolerance.</div>
+            </li>
+            <li>
+              <span class="bullet-icon">&#x25CE;</span>
+              <div><strong>Concentration Risk:</strong> Top 5 VIPs alone drive 16.3% of total revenue. Losing even 2 top accounts materially damages margin.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-box accent">
+          <span class="action-tag">Executive Action</span>
+          <span class="action-text">Formalize a Tiered VIP Loyalty Program with threshold benefits (e.g. Free delivery or priority perks on orders > ₹1,000).</span>
+        </div>
+      </section>
+
+      <!-- Slide 4: Category & Demographics -->
+      <section class="slide" data-index="3">
+        <span class="slide-badge">Portfolio & Demographics</span>
+        <h2 class="slide-title">Even Category Splits with Gender Nuance</h2>
+        <p class="slide-subtitle">Product demand remains balanced across all three categories, with defined gender preferences and an established age demographic.</p>
+
+        <div class="split-layout">
+          <div class="bar-chart-list">
+            <div class="bar-item">
+              <div class="bar-meta">
+                <span>Electronics (Top: Male ₹1.60L)</span>
+                <span>₹3,13,810 (34.4%)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 34.4%; background: #38bdf8;"></div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-meta">
+                <span>Clothing (Top: Female ₹1.62L)</span>
+                <span>₹3,11,070 (34.1%)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 34.1%; background: #818cf8;"></div>
+              </div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-meta">
+                <span>Beauty (Top: Female ₹1.49L)</span>
+                <span>₹2,86,840 (31.5%)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 31.5%; background: #f59e0b;"></div>
+              </div>
+            </div>
+          </div>
+
+          <ul class="bullet-points">
+            <li>
+              <span class="bullet-icon">&#x2022;</span>
+              <div><strong>Demographic Stability:</strong> Average customer age sits uniformly at <strong>40–42 years</strong> across all product lines.</div>
+            </li>
+            <li>
+              <span class="bullet-icon">&#x2022;</span>
+              <div><strong>Targeted Messaging:</strong> Women lead sales in Clothing and Beauty; men lead category spend in Electronics.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-box">
+          <span class="action-tag">Marketing Strategy</span>
+          <span class="action-text">Avoid generic omni-channel campaigns. Segment ad creative directly toward the primary purchasing demographic by product line.</span>
+        </div>
+      </section>
+
+      <!-- Slide 5: Seasonality -->
+      <section class="slide" data-index="4">
+        <span class="slide-badge">Seasonality & Trends</span>
+        <h2 class="slide-title">Q4 Surge Dictates Annual Procurement</h2>
+        <p class="slide-subtitle">Historical performance reveals cyclical revenue expansion peaking sharply each year between October and December.</p>
+
+        <div class="split-layout">
+          <div class="metric-grid" style="grid-template-columns: 1fr; margin-bottom: 0;">
+            <div class="metric-card">
+              <span class="metric-label">2022 Annual Peak</span>
+              <span class="metric-value">₹72,880</span>
+              <span class="metric-desc">Achieved in December 2022, after steady rises in Oct (₹68.2K) &amp; Nov (₹68.9K).</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">2023 Annual Peak</span>
+              <span class="metric-value">₹69,145</span>
+              <span class="metric-desc">Achieved in December 2023, following strong September &amp; October volumes.</span>
+            </div>
+          </div>
+
+          <ul class="bullet-points">
+            <li>
+              <span class="bullet-icon">&#x25B2;</span>
+              <div><strong>H2 Expansion:</strong> Revenue doubles between off-peak troughs in February/April and peak year-end holiday momentum.</div>
+            </li>
+            <li>
+              <span class="bullet-icon">&#x25BC;</span>
+              <div><strong>Q1/Q2 Moderation:</strong> Annual lows average around ₹16K–₹25K per month, demanding disciplined cost control.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-box">
+          <span class="action-tag">Procurement Action</span>
+          <span class="action-text">Lock in inventory supplier contracts and logistics lead times by early Q3 to avoid stockouts in late Q4.</span>
+        </div>
+      </section>
+
+      <!-- Slide 6: Action Blueprint -->
+      <section class="slide" data-index="5">
+        <span class="slide-badge">Execution Roadmap</span>
+        <h2 class="slide-title">Integrated Operational Blueprint</h2>
+        <p class="slide-subtitle">A chronological 4-stage action plan translating analytical findings into sustained retail profitability.</p>
+
+        <div class="timeline-steps">
+          <div class="step-card">
+            <span class="step-num">STAGE 01</span>
+            <div class="step-title">Early Q3 Prep</div>
+            <div class="step-desc">Calibrate category replenishment and warehouse stock around balanced 33% category splits.</div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">STAGE 02</span>
+            <div class="step-title">Mid Q3 Loyalty</div>
+            <div class="step-desc">Establish structured VIP perks and tiered basket incentives for orders exceeding ₹1,000.</div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">STAGE 03</span>
+            <div class="step-title">Q4 Campaigns</div>
+            <div class="step-desc">Deploy segment-specific digital campaigns (Electronics for men, Beauty &amp; Clothing for women).</div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">STAGE 04</span>
+            <div class="step-title">December Peak</div>
+            <div class="step-desc">Shift floor staffing and logistics bandwidth post-5 PM to support the 53.1% daily rush.</div>
+          </div>
+        </div>
+
+        <div class="action-box accent">
+          <span class="action-tag">Summary Directive</span>
+          <span class="action-text">Align supply chain readiness to Q4 seasonality while anchoring daily operations to peak evening footfall.</span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="dots-nav" id="dots-container"></div>
+    <div class="controls">
+      <button class="btn" id="prev-btn" disabled>&larr; Previous</button>
+      <button class="btn" id="next-btn">Next &rarr;</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const slideIndicator = document.getElementById('slide-indicator');
+    const dotsContainer = document.getElementById('dots-container');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // Create dot indicators
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (idx === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(idx));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateDeck() {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+      dots.forEach((d, idx) => {
+        d.classList.toggle('active', idx === currentSlide);
+      });
+
+      slideIndicator.textContent = `0${currentSlide + 1} / 0${totalSlides}`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function goToSlide(idx) {
+      currentSlide = idx;
+      updateDeck();
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateDeck();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateDeck();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        if (currentSlide < totalSlides - 1) {
+          currentSlide++;
+          updateDeck();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateDeck();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
